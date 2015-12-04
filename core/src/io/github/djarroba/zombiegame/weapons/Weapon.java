@@ -70,6 +70,9 @@ public abstract class Weapon {
 		sprite.setTexture(currentTexture);
 		sprite.setPosition(player.getX()+1, player.getY());
 		sprite.setRotation(player.getRotation());
+	}
+
+	public void draw() {
 		sprite.draw(game.gameScreen.batch);
 	}
 

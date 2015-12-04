@@ -23,6 +23,11 @@ public class Pistol extends Weapon {
 	}
 
 	@Override
+	public void draw() {
+		super.draw();
+	}
+
+	@Override
 	public void attack() {
 		super.attack();
 	}

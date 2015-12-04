@@ -20,7 +20,7 @@ public class Player extends Sprite {
 	public GameScreen screen;
 	Weapon primaryWeapon;
 	Body body;
-	float speed = 1f;
+	float speed = 2f;
 
 	public Player(GameScreen screen) {
 		super(screen.game.assets.get("textures/test.png", Texture.class), 16, 16);
@@ -62,11 +62,11 @@ public class Player extends Sprite {
 		setPosition(body.getPosition().x-getWidth()/2, body.getPosition().y-getHeight()/2);
 
 		primaryWeapon.update();
-		draw();
 	}
 
-	private void draw() {
+	public void draw() {
 		draw(screen.batch);
+		primaryWeapon.draw();
 	}
 
 	private void movement() {

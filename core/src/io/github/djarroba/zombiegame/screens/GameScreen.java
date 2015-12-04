@@ -74,6 +74,7 @@ public class GameScreen implements Screen {
 
 		world.step(1/60f, 6, 2);
 
+		player.update();
 		camera.position.set(player.getX()+player.getWidth()/2, player.getY()+player.getHeight()/2, 0);
 		camera.update();
 
@@ -83,7 +84,7 @@ public class GameScreen implements Screen {
 
 		background.draw(batch);
 
-		player.update();
+		player.draw();
 
 		batch.end();
 
@@ -112,6 +113,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+		batch.dispose();
+		world.dispose();
     }
 }
