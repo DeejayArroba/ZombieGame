@@ -21,6 +21,7 @@ public class Player extends Sprite {
 	Weapon primaryWeapon;
 	Body body;
 	float speed = 2f;
+    float sprintSpeed = 2f;
 
 	public Player(GameScreen screen) {
 		super(screen.game.assets.get("textures/test.png", Texture.class), 16, 16);
@@ -80,6 +81,23 @@ public class Player extends Sprite {
 			finalVelocity.y += speed;
 		if(Gdx.input.isKeyPressed(Input.Keys.S))
 			finalVelocity.y -= speed;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            if (finalVelocity.x == Math.max(finalVelocity.x, finalVelocity.y)) {
+                if (finalVelocity.y >= 0) {
+                    finalVelocity.x += sprintSpeed;
+                } else {
+                    finalVelocity.y -= sprintSpeed;
+                }
+            }
+            if (finalVelocity.y == Math.max(finalVelocity.x, finalVelocity.y)) {
+                if (finalVelocity.x >= 0) {
+                    finalVelocity.y += sprintSpeed;
+                } else {
+                    finalVelocity.x -= sprintSpeed;
+                }
+            }
+        }
 
 		body.setLinearVelocity(finalVelocity);
 	}
