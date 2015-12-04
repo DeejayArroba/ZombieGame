@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.Player;
@@ -29,9 +32,13 @@ public class GameScreen implements Screen {
 	Player player;
 	Sprite background;
 
+	public World world;
+	Box2DDebugRenderer debugRenderer;
+
 	public GameScreen(ZombieGame game) {
 		this.game = game;
 
+		// Set the cursor
 		Texture cursorTexture = game.assets.get("textures/cursor.png", Texture.class);
 		cursorTexture.getTextureData().prepare();
 		Pixmap cursorPixmap = cursorTexture.getTextureData().consumePixmap();
@@ -43,6 +50,10 @@ public class GameScreen implements Screen {
 		viewport.apply();
 
 		camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
+
+		// Create the world
+		world = new World(new Vector2(0, 0), true);
+		debugRenderer = new Box2DDebugRenderer();
 
 		batch = new SpriteBatch();
 		player = new Player(this);
@@ -61,6 +72,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		world.step(1/60f, 6, 2);
+
 		camera.position.set(player.getX()+player.getWidth()/2, player.getY()+player.getHeight()/2, 0);
 		camera.update();
 
@@ -73,6 +86,8 @@ public class GameScreen implements Screen {
 		player.update();
 
 		batch.end();
+
+		debugRenderer.render(world, camera.combined);
     }
 
     @Override

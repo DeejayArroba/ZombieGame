@@ -64,7 +64,6 @@ public abstract class Weapon {
 		} else {
 			// Animation
 			float animationProgress = (timeFromLastAttack / attackDelay) + 0.2f;
-			System.out.println(animationProgress);
 			currentTexture = attackingTextures.get((int)  ((attackingTextures.size()-1) * Math.min(1, animationProgress)));
 		}
 

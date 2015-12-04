@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import io.github.djarroba.zombiegame.screens.GameScreen;
 
 public class ZombieGame extends Game {
@@ -32,6 +33,8 @@ public class ZombieGame extends Game {
 		assets.load("sounds/pistol.wav", Sound.class);
 
 		assets.finishLoading();
+
+		Box2D.init();
 
 		gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
