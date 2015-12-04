@@ -21,7 +21,12 @@ public class Player extends Sprite {
 	Weapon primaryWeapon;
 	Body body;
 	float speed = 2f;
-    float sprintSpeed = 2f;
+    boolean isSprinting;
+    Vector2 sprintSpeed = new Vector2(2, 2);
+    int maxStamina;
+    float stamina;
+    float staminaRegen;
+    float runCost;
 
 	public Player(GameScreen screen) {
 		super(screen.game.assets.get("textures/test.png", Texture.class), 16, 16);
@@ -32,7 +37,12 @@ public class Player extends Sprite {
 
 		createBody();
 
-		primaryWeapon = new Pistol(this);
+        maxStamina = 100;
+        stamina = maxStamina;
+        runCost = 15;
+        staminaRegen = 20;
+
+        primaryWeapon = new Pistol(this);
 	}
 
 	private void createBody() {
@@ -82,24 +92,21 @@ public class Player extends Sprite {
 		if(Gdx.input.isKeyPressed(Input.Keys.S))
 			finalVelocity.y -= speed;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            if (finalVelocity.x == Math.max(finalVelocity.x, finalVelocity.y)) {
-                if (finalVelocity.y >= 0) {
-                    finalVelocity.x += sprintSpeed;
-                } else {
-                    finalVelocity.y -= sprintSpeed;
-                }
+        this.isSprinting = false;
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+            if (stamina > runCost * deltaTime) {
+                stamina -= runCost * deltaTime;
+                finalVelocity.scl(sprintSpeed);
+                this.isSprinting = true;
             }
-            if (finalVelocity.y == Math.max(finalVelocity.x, finalVelocity.y)) {
-                if (finalVelocity.x >= 0) {
-                    finalVelocity.y += sprintSpeed;
-                } else {
-                    finalVelocity.x -= sprintSpeed;
-                }
-            }
+        } else {
+            if (stamina < maxStamina) stamina += staminaRegen * deltaTime;
+            //This is make stamina to NOT replenish until shift is released,
+            //that's on purpose don't know if it's right.
         }
-
-		body.setLinearVelocity(finalVelocity);
+        //System.out.println(stamina); //Debug only
+        body.setLinearVelocity(finalVelocity);
 	}
 
 	private void calculateRotation() {
