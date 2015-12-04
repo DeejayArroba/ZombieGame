@@ -105,7 +105,7 @@ public class Player extends Sprite {
             //This is make stamina to NOT replenish until shift is released,
             //that's on purpose don't know if it's right.
         }
-        //System.out.println(stamina); //Debug only
+
         body.setLinearVelocity(finalVelocity);
 	}
 
@@ -119,10 +119,6 @@ public class Player extends Sprite {
 
 		body.setTransform(body.getPosition().x, body.getPosition().y, (float) Math.toRadians(angle));
 		setRotation((float) angle);
-	}
-
-	public void teleport(float x, float y) {
-		body.getPosition().set(x, y);
 	}
 
 }
