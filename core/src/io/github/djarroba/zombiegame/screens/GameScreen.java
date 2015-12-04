@@ -64,10 +64,16 @@ public class GameScreen implements Screen {
 		debugRenderer = new Box2DDebugRenderer();
 
 		batch = new SpriteBatch();
-		player = new Player(this);
 
-		map = game.assets.get("tilemaps/testmap.tmx", TiledMap.class);
+		map = game.assets.get("maps/testmap.tmx", TiledMap.class);
 		mapRenderer = new OrthogonalTiledMapRenderer(map, 1/Units.PPU);
+
+		float spawnX = Float.parseFloat(map.getProperties().get("spawn_x", String.class));
+		float spawnY = Float.parseFloat(map.getProperties().get("spawn_y", String.class));
+
+		Vector2 playerStartPos = new Vector2(spawnX, spawnY);
+
+		player = new Player(this, playerStartPos);
 
 	}
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="16" tileheight="16" nextobjectid="1">
+ <properties>
+  <property name="spawn_x" value="10"/>
+  <property name="spawn_y" value="12"/>
+ </properties>
+ <tileset firstgid="1" name="city_tiles" tilewidth="16" tileheight="16" spacing="1" tilecount="1036">
+  <image source="../tiles/city_tiles.png" width="628" height="475"/>
+ </tileset>
+ <layer name="Ground" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0rENgDAMAEFLLAYLZ4oMRpGGNhbCsrji+i9+HhETAAAAAOBDI5bqjkyzdt273V3au3Z3fkW7du29aNf/h/4robr56Uyoboa33Epw7CQ=
+  </data>
+ </layer>
+ <layer name="Decoration" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt1MEJgCAUgGHTLdqlGqJl2qNjtUfHaqQm6EEdS5AwffR/8BDBw39QjQEAAAAAAACAuPoidcE7s/J+pKPh7vsaNdx9DY1ALBr+GB/eL/6mtedayVrL7Jm/gcEZM8pM7tx39v5c6b5rCrFI1yqzXX3TQ3+TaT8Q6gBIXwyd
+  </data>
+ </layer>
+</map>

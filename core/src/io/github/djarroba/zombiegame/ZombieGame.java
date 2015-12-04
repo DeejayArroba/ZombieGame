@@ -37,7 +37,7 @@ public class ZombieGame extends Game {
 		assets.load("sounds/pistol.wav", Sound.class);
 
 		assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		assets.load("tilemaps/testmap.tmx", TiledMap.class);
+		assets.load("maps/testmap.tmx", TiledMap.class);
 
 		assets.setLoader(Pixmap.class, new PixmapLoader(new InternalFileHandleResolver()));
 		assets.load("textures/cursor.png", Texture.class);

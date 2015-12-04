@@ -28,14 +28,14 @@ public class Player extends Sprite {
     float staminaRegen;
     float runCost;
 
-	public Player(GameScreen screen) {
+	public Player(GameScreen screen, Vector2 startPos) {
 		super(screen.game.assets.get("textures/test.png", Texture.class), 16, 16);
 		this.screen = screen;
 
 		setSize(getWidth() / Units.PPU, getHeight() / Units.PPU);
 		setOrigin(getWidth()/2, getHeight()/2);
 
-		createBody();
+		createBody(startPos);
 
         maxStamina = 100;
         stamina = maxStamina;
@@ -45,10 +45,10 @@ public class Player extends Sprite {
         primaryWeapon = new Pistol(this);
 	}
 
-	private void createBody() {
+	private void createBody(Vector2 startPos) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.KinematicBody;
-		bodyDef.position.set(0, 0);
+		bodyDef.position.set(startPos);
 
 		body = screen.world.createBody(bodyDef);
 
@@ -119,6 +119,10 @@ public class Player extends Sprite {
 
 		body.setTransform(body.getPosition().x, body.getPosition().y, (float) Math.toRadians(angle));
 		setRotation((float) angle);
+	}
+
+	public void teleport(float x, float y) {
+		body.getPosition().set(x, y);
 	}
 
 }
