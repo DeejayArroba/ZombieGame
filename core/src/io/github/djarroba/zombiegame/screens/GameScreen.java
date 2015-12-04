@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.Player;
@@ -24,8 +25,6 @@ public class GameScreen implements Screen {
 
 	SpriteBatch batch;
 	Player player;
-
-
 
 	public GameScreen(ZombieGame game) {
 		this.game = game;
@@ -56,7 +55,14 @@ public class GameScreen implements Screen {
 
 		batch.setProjectionMatrix(camera.combined);
 
-		player.rotate(30*delta);
+		Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		Vector3 playerPos = new Vector3(player.getX(), player.getY(), 0);
+
+		Vector3 vectorToTarget = new Vector3(mousePos.x - playerPos.x, mousePos.y - playerPos.y, 0);
+
+		double angle = Math.toDegrees(Math.atan2(vectorToTarget.y, vectorToTarget.x));
+
+		player.setRotation((float) angle);
 
 		batch.begin();
 
