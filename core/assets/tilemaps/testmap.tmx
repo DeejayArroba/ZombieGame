@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="roguelikeCity_transparent" tilewidth="16" tileheight="16" spacing="1" tilecount="1036">
+  <image source="../tiles/roguelikeCity_transparent.png" trans="ff00ff" width="628" height="475"/>
+ </tileset>
+ <layer name="Ground" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzrENACAIADASH5PfOczJmZFEO3RvrYgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeFA2pn+/2Y3pH8B1AEARVvs=
+  </data>
+ </layer>
+ <layer name="Decoration" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3E0uBEEYxvFmrmTLPSTOInEFW6wcACtbnAF3wUYtJD3o6en6eKue6vf/SyoSCal6v6oWkxkGqLo8aL0DbHskH3BIaQ5Z7UXpjPuUnkM5Z7eaiZ5nreezA4C1nu57D0reeV5y28s5vbxnvJwTunqZCV4wE/pDD2kp0UPkVIvCXKQmtCjUBNqhH7XQj4Au5qUWq3lpkWdqJ51Fnrlrd6NW01nEjlpNR+xG9LUWahMAkIu7PU/p+HG3j1JiS/zsEFsALfBO0VLzLiD3Wtb6DqDO4ljHa611ZsVjvFr1LN9vMK1VDfL9BgAAtNH726WGmjFa8nbxnjO1953afnZRrxv1/ZWmXjfq+1PgrWbVUbNAG8xCLczC/tBDWughoB7mnxbmH9AHZqeWpbOzt7yp7rfUvnq781T3q7ov1BXbl6rzZS1i+5I+Rgzr/mU+xLHu3+3/T2605OSeXNY3F3Pu4fqIOWCD+0ULs84nD3249IwKsfDQh0vP6CEWVhRqGSNqGUCvPN8nimdPvU8UzxJrTXfpms7Syulh+t/y+YQ8U/E4/8nHcfh5MpGbo5l88fmEPFPxuN3TH2cZ/YN5V5thuA7rZvP793dh3Yf1MPE3F+TDzFPIw3NYL3/y8RrWW1jvLTaFfz7C+gzrq/VGgAa+AUjZXFE=
+  </data>
+ </layer>
+</map>
