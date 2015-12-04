@@ -20,7 +20,7 @@ public class GameScreen implements Screen {
 	public static float WORLD_WIDTH = 16f;
 	public static float WORLD_HEIGHT = 9f;
 
-	private ZombieGame game;
+	public ZombieGame game;
 
 	public OrthographicCamera camera;
 	FillViewport viewport;
@@ -32,7 +32,9 @@ public class GameScreen implements Screen {
 	public GameScreen(ZombieGame game) {
 		this.game = game;
 
-		Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("cursor.png"));
+		Texture cursorTexture = game.assets.get("textures/cursor.png", Texture.class);
+		cursorTexture.getTextureData().prepare();
+		Pixmap cursorPixmap = cursorTexture.getTextureData().consumePixmap();
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorPixmap, cursorPixmap.getWidth()/2, cursorPixmap.getHeight()/2));
 
 		camera = new OrthographicCamera();
@@ -44,7 +46,7 @@ public class GameScreen implements Screen {
 
 		batch = new SpriteBatch();
 		player = new Player(this);
-		background = new Sprite(new Texture("grass.png"), 640, 400);
+		background = new Sprite(game.assets.get("textures/grass.png", Texture.class), 640, 400);
 		background.setSize(background.getWidth() / Units.PPU, background.getHeight() / Units.PPU);
 		background.setPosition(-WORLD_WIDTH/2, -WORLD_HEIGHT/2);
 	}

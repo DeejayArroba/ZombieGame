@@ -9,61 +9,33 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import io.github.djarroba.zombiegame.screens.GameScreen;
 import io.github.djarroba.zombiegame.units.Units;
+import io.github.djarroba.zombiegame.weapons.Pistol;
+import io.github.djarroba.zombiegame.weapons.Weapon;
 
 public class Player extends Sprite {
 
-	private GameScreen screen;
-	Sprite shotSprite;
-	boolean firingShot = false;
-	boolean justShot = false;
-	Sound shotSound;
+	public GameScreen screen;
+	Weapon primaryWeapon;
 
 	public Player(GameScreen screen) {
-		super(new Texture("test.png"), 16, 16);
+		super(screen.game.assets.get("textures/test.png", Texture.class), 16, 16);
 		this.screen = screen;
 
 		setSize(getWidth() / Units.PPU, getHeight() / Units.PPU);
 		setOrigin(getWidth()/2, getHeight()/2);
 
-		shotSprite = new Sprite(new Texture("shot.png"), 16, 16);
-		shotSprite.setSize(shotSprite.getWidth() / Units.PPU, shotSprite.getHeight() / Units.PPU);
-		shotSprite.setOrigin(shotSprite.getWidth()/2 - getWidth(), shotSprite.getHeight()/2);
-
-		shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/pistol.wav"));
+		primaryWeapon = new Pistol(this);
 	}
 
 	public void update() {
 		calculateRotation();
 		movement();
-		updateShot();
+		primaryWeapon.update();
 		draw();
 	}
 
 	private void draw() {
 		draw(screen.batch);
-		if(firingShot)
-			shotSprite.draw(screen.batch);
-	}
-
-	private void updateShot() {
-		if(Gdx.input.justTouched()) {
-			firingShot = true;
-			justShot = true;
-			shotSound.play();
-			Timer.schedule(new Timer.Task() {
-				@Override
-				public void run() {
-					if(!justShot)
-						firingShot = false;
-				}
-			}, 0.2f);
-		} else {
-			justShot = false;
-		}
-
-
-		shotSprite.setPosition(getX()+1, getY());
-		shotSprite.setRotation(getRotation());
 	}
 
 	private void movement() {
