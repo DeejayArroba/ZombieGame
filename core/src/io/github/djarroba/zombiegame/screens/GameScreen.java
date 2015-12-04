@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.Player;
+import io.github.djarroba.zombiegame.units.Units;
 
 public class GameScreen implements Screen {
 
@@ -20,14 +22,18 @@ public class GameScreen implements Screen {
 
 	private ZombieGame game;
 
-	OrthographicCamera camera;
+	public OrthographicCamera camera;
 	FillViewport viewport;
 
-	SpriteBatch batch;
+	public SpriteBatch batch;
 	Player player;
+	Sprite background;
 
 	public GameScreen(ZombieGame game) {
 		this.game = game;
+
+		Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("cursor.png"));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorPixmap, cursorPixmap.getWidth()/2, cursorPixmap.getHeight()/2));
 
 		camera = new OrthographicCamera();
 
@@ -37,7 +43,10 @@ public class GameScreen implements Screen {
 		camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
 
 		batch = new SpriteBatch();
-		player = new Player();
+		player = new Player(this);
+		background = new Sprite(new Texture("grass.png"), 640, 400);
+		background.setSize(background.getWidth() / Units.PPU, background.getHeight() / Units.PPU);
+		background.setPosition(-WORLD_WIDTH/2, -WORLD_HEIGHT/2);
 	}
 
     @Override
@@ -55,18 +64,11 @@ public class GameScreen implements Screen {
 
 		batch.setProjectionMatrix(camera.combined);
 
-		Vector3 mousePos = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-		Vector3 playerPos = new Vector3(player.getX(), player.getY(), 0);
-
-		Vector3 vectorToTarget = new Vector3(mousePos.x - playerPos.x, mousePos.y - playerPos.y, 0);
-
-		double angle = Math.toDegrees(Math.atan2(vectorToTarget.y, vectorToTarget.x));
-
-		player.setRotation((float) angle);
-
 		batch.begin();
 
-		player.draw(batch);
+		background.draw(batch);
+
+		player.update();
 
 		batch.end();
     }
