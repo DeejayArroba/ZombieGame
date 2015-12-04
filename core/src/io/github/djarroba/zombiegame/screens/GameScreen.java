@@ -2,6 +2,7 @@ package io.github.djarroba.zombiegame.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -9,6 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -30,10 +35,13 @@ public class GameScreen implements Screen {
 
 	public SpriteBatch batch;
 	Player player;
-	Sprite background;
 
 	public World world;
 	Box2DDebugRenderer debugRenderer;
+
+	TiledMap map;
+	OrthogonalTiledMapRenderer mapRenderer;
+
 
 	public GameScreen(ZombieGame game) {
 		this.game = game;
@@ -57,9 +65,10 @@ public class GameScreen implements Screen {
 
 		batch = new SpriteBatch();
 		player = new Player(this);
-		background = new Sprite(game.assets.get("textures/grass.png", Texture.class), 640, 400);
-		background.setSize(background.getWidth() / Units.PPU, background.getHeight() / Units.PPU);
-		background.setPosition(-WORLD_WIDTH/2, -WORLD_HEIGHT/2);
+
+		map = game.assets.get("tilemaps/testmap.tmx", TiledMap.class);
+		mapRenderer = new OrthogonalTiledMapRenderer(map, 1/Units.PPU);
+
 	}
 
     @Override
@@ -78,11 +87,12 @@ public class GameScreen implements Screen {
 		camera.position.set(player.getX()+player.getWidth()/2, player.getY()+player.getHeight()/2, 0);
 		camera.update();
 
+		mapRenderer.setView(camera);
+		mapRenderer.render();
+
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-
-		background.draw(batch);
 
 		player.draw();
 
