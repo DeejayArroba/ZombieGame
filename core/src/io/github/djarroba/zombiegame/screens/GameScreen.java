@@ -1,35 +1,21 @@
 package io.github.djarroba.zombiegame.screens;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
-import io.github.djarroba.zombiegame.components.SpriteComponent;
-import io.github.djarroba.zombiegame.components.TransformComponent;
+import io.github.djarroba.zombiegame.entities.EntityManager;
 import io.github.djarroba.zombiegame.entities.Player;
-import io.github.djarroba.zombiegame.systems.PlayerSystem;
-import io.github.djarroba.zombiegame.systems.PositionSystem;
-import io.github.djarroba.zombiegame.systems.WeaponSystem;
 import io.github.djarroba.zombiegame.units.Units;
 
 public class GameScreen implements Screen {
@@ -53,7 +39,7 @@ public class GameScreen implements Screen {
 
 	Body worldBody;
 
-	public Engine engine;
+	public EntityManager entityManager;
 
 	public GameScreen(ZombieGame game) {
 		this.game = game;
@@ -71,7 +57,7 @@ public class GameScreen implements Screen {
 
 		camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
 
-		engine = new Engine();
+		entityManager = new EntityManager();
 
 		// Create the world
 		world = new World(new Vector2(0, 0), true);
@@ -88,11 +74,7 @@ public class GameScreen implements Screen {
 		Vector2 playerStartPos = new Vector2(spawnX, spawnY);
 
 		player = new Player(this, playerStartPos);
-		engine.addEntity(player);
-
-		engine.addSystem(new PositionSystem());
-		engine.addSystem(new PlayerSystem());
-		engine.addSystem(new WeaponSystem());
+		entityManager.add(player);
 	}
 
 	private void loadMap(TiledMap map) {
@@ -141,10 +123,9 @@ public class GameScreen implements Screen {
 
 		world.step(1/60f, 6, 2);
 
-		engine.update(delta);
+		entityManager.update(delta);
 
-		TransformComponent playerTransform = player.transformComponent;
-		camera.position.set(Math.round(playerTransform.getX()*1000)/1000f, Math.round(playerTransform.getY()*1000)/1000f, 0);
+		camera.position.set(Math.round(player.body.getPosition().x*1000)/1000f, Math.round(player.body.getPosition().y*1000)/1000f, 0);
 		camera.update();
 
 		mapRenderer.setView(camera);
@@ -155,15 +136,13 @@ public class GameScreen implements Screen {
 
 		batch.begin();
 
-		for(Entity entity : engine.getEntitiesFor(Family.all(SpriteComponent.class).get())) {
-			SpriteComponent spriteComponent = entity.getComponent(SpriteComponent.class);
-			spriteComponent.sprite.draw(batch);
-		}
+		entityManager.drawUpdate(delta, batch);
 
 		batch.end();
 
 		// Render foreground layer
 		mapRenderer.render(new int[]{1});
+		entityManager.lateUpdate(delta);
 
 		//debugRenderer.render(world, camera.combined);
     }

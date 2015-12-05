@@ -12,11 +12,11 @@ public class Pistol extends Weapon {
 				player.screen.game.assets.get("textures/weapons/pistol.png", Texture.class),
 				player.screen.game.assets.get("sounds/pistol.wav", Sound.class));
 
-		weaponComponent.attackDelay = 0.1f;
+		attackDelay = 0.1f;
 
-		weaponComponent.attackingTextures.add(new Texture("textures/weapons/pistol_firing_1.png"));
-		weaponComponent.attackingTextures.add(new Texture("textures/weapons/pistol_firing_2.png"));
-		weaponComponent.attackingTextures.add(new Texture("textures/weapons/pistol_firing_3.png"));
+		attackingTextures.add(new Texture("textures/weapons/pistol_firing_1.png"));
+		attackingTextures.add(new Texture("textures/weapons/pistol_firing_2.png"));
+		attackingTextures.add(new Texture("textures/weapons/pistol_firing_3.png"));
 
 	}
 
@@ -24,4 +24,5 @@ public class Pistol extends Weapon {
 	public void attack() {
 		super.attack();
 	}
+
 }
