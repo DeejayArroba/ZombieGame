@@ -27,7 +27,7 @@ public class ZombieGame extends Game {
 		assets = new AssetManager();
 
 		assets.load("textures/grass.png", Texture.class);
-		assets.load("textures/test.png", Texture.class);
+		assets.load("textures/player.png", Texture.class);
 		assets.load("textures/weapons/pistol.png", Texture.class);
 		assets.load("textures/weapons/pistol_firing_0.png", Texture.class);
 		assets.load("textures/weapons/pistol_firing_1.png", Texture.class);
