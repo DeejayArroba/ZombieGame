@@ -55,7 +55,7 @@
  </layer>
  <layer name="Foreground" width="48" height="48">
   <data encoding="base64" compression="zlib">
-   eJztz7ENgDAMRcF0ESyUSWAOJoGdGCzCBRtQOBF30pfb51IAGEVbswu+Od7+Le4+8S9ntF+xXrNL/ulesgsAAAAAAABgLg+yWwR8
+   eJzt0rEJgDAQheGQRnQhJ9E5BHUNbdVxHEy8QjFIxKSQJPh/cAiS4t3jlAIAxKIsQifw12qlOplepjnyV/KtE9llktyzzKKvf4NkH2W2LFyuN2bvX7z/mq3305r7vQ/N7Da2nl2Y3T71nOJeppjvxyalvm1Z733HvI/LbaR2PwAAAAAAAACAf9oB3iIhRw==
   </data>
  </layer>
  <objectgroup name="Collision">

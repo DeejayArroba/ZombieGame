@@ -10,12 +10,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import io.github.djarroba.zombiegame.levels.LevelManager;
 import io.github.djarroba.zombiegame.screens.GameScreen;
+import io.github.djarroba.zombiegame.screens.MainMenuScreen;
 
 public class ZombieGame extends Game {
 
 	public GameScreen gameScreen;
+	public MainMenuScreen menuScreen;
 	public AssetManager assets;
+	public LevelManager levelManager;
 
 	@Override
 	public void create () {
@@ -33,16 +37,21 @@ public class ZombieGame extends Game {
 
 		assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		assets.load("maps/testmap.tmx", TiledMap.class);
+		assets.load("maps/testmap2.tmx", TiledMap.class);
 
 		assets.setLoader(Pixmap.class, new PixmapLoader(new InternalFileHandleResolver()));
 		assets.load("textures/cursor.png", Texture.class);
 
 		assets.finishLoading();
 
+		levelManager = new LevelManager(this);
+
 		Box2D.init();
 
-		gameScreen = new GameScreen(this);
-		setScreen(gameScreen);
+		//gameScreen = new GameScreen(this);
+		//setScreen(gameScreen);
+		menuScreen = new MainMenuScreen(this);
+		setScreen(menuScreen);
 	}
 
 	@Override

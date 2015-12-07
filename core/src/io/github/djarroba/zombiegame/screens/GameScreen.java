@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.EntityManager;
 import io.github.djarroba.zombiegame.entities.Player;
+import io.github.djarroba.zombiegame.levels.Level;
 import io.github.djarroba.zombiegame.units.Units;
 
 public class GameScreen implements Screen {
@@ -34,15 +34,15 @@ public class GameScreen implements Screen {
 	public World world;
 	Box2DDebugRenderer debugRenderer;
 
-	TiledMap map;
 	OrthogonalTiledMapRenderer mapRenderer;
 
-	Body worldBody;
+	Level level;
 
 	public EntityManager entityManager;
 
-	public GameScreen(ZombieGame game) {
+	public GameScreen(ZombieGame game, Level level) {
 		this.game = game;
+		this.level = level;
 
 		// Set the cursor
 		Texture cursorTexture = game.assets.get("textures/cursor.png", Texture.class);
@@ -65,53 +65,16 @@ public class GameScreen implements Screen {
 
 		batch = new SpriteBatch();
 
-		loadMap(game.assets.get("maps/testmap.tmx", TiledMap.class));
-		mapRenderer = new OrthogonalTiledMapRenderer(map, 1/Units.PPU);
+		level.load(world);
+		mapRenderer = new OrthogonalTiledMapRenderer(level.getMap(), 1/Units.PPU);
 
-		float spawnX = Float.parseFloat(map.getProperties().get("spawn_x", String.class));
-		float spawnY = Float.parseFloat(map.getProperties().get("spawn_y", String.class));
-
-		Vector2 playerStartPos = new Vector2(spawnX, spawnY);
+		Vector2 playerStartPos = new Vector2(level.getSpawnPosition().x, level.getSpawnPosition().y);
 
 		player = new Player(this, playerStartPos);
 		entityManager.add(player);
 	}
 
-	private void loadMap(TiledMap map) {
-		this.map = map;
-		// Everything here is in world units
-		int mapWidth = map.getProperties().get("width", Integer.class);
-		int mapHeight = map.getProperties().get("height", Integer.class);
-		int tileWidth = map.getProperties().get("tilewidth", Integer.class);
-		int tileHeight = map.getProperties().get("tileheight", Integer.class);
-
-		BodyDef worldBodyDef = new BodyDef();
-		worldBodyDef.type = BodyDef.BodyType.StaticBody;
-		worldBodyDef.position.set(0, 0);
-
-		worldBody = world.createBody(worldBodyDef);
-
-		for (MapObject mapObject : map.getLayers().get("Collision").getObjects()) {
-			// Everything here is in world units
-			float objectX = mapObject.getProperties().get("x", Float.class) / tileWidth;
-			float objectY = mapObject.getProperties().get("y", Float.class) / tileWidth;
-			float objectWidth = mapObject.getProperties().get("width", Float.class) / tileWidth;
-			float objectHeight = mapObject.getProperties().get("height", Float.class) / tileWidth;
-
-			FixtureDef fixtureDef = new FixtureDef();
-
-			PolygonShape shape = new PolygonShape();
-			shape.setAsBox(objectWidth/2, objectHeight/2, new Vector2(objectX + objectWidth/2, objectY + objectHeight/2), 0);
-
-			fixtureDef.shape = shape;
-
-			worldBody.createFixture(fixtureDef);
-
-			shape.dispose();
-		}
-	}
-
-    @Override
+	@Override
     public void show() {
 
     }
