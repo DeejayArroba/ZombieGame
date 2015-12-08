@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="16" tileheight="16" nextobjectid="71">
  <properties>
+  <property name="name" value="Test map 1"/>
   <property name="spawn_x" value="22"/>
   <property name="spawn_y" value="32"/>
  </properties>
@@ -48,14 +49,19 @@
  <tileset firstgid="2027" name="Main" tilewidth="16" tileheight="16" spacing="1" tilecount="1767">
   <image source="../tiles/main_tiles.png" width="968" height="526"/>
  </tileset>
- <layer name="Background" width="48" height="48">
+ <layer name="Back layer (back of player)" width="48" height="48">
   <data encoding="base64" compression="zlib">
    eJztmEsOwzAIRCP1/vfo7xjZpp+rtD1A04UlhDDGJp64Eou3s+IZjAFnPkzTHARBEATB33FcOTVyHkD3c+XWyGMnH0dB92XlbeQq+EB54NqT7k/FN16CD5SHhWmv0S35oB7uwNjntNP7bIkn9dBbP429tBfPLauepXK9V78Ue+leWHMLoZ/qk/bx3AuE/lLuaGfjiQsidzwxLMVla/25PVr0W+oZWr+lD0mzB6r2lPRra3IzU+/YW+JL+xBfo+mms0da12OOsMSXrkmzpUW39Yw9WPo8n2c42qyHqKOW+KTZUkLLcUQd7XW+qDpaUyNbvrv3DDFy7H9oNdKrHdHD+Bm0vr+lfoDoYfwMWnzk3v4I7dRD7j+C5mOLtz/SB2ePfPH40PrwKNolHyVG1B4EQRAEgY0vEvkKiA==
   </data>
  </layer>
- <layer name="Foreground" width="48" height="48">
+ <layer name="Mid layer (back of player)" width="48" height="48">
   <data encoding="base64" compression="zlib">
-   eJztz7ENgDAMRcF0ESyUSWAOJoGdGCzCBRtQOBF30pfb51IAGEVbswu+Od7+Le4+8S9ntF+xXrNL/ulesgsAAAAAAABgLg+yWwR8
+   eJztzjERACAMBLBfqXjQhDNWHPQ4EgVJAIDbrGRV9+Jfe3QPAAAAAAAA4C0HLVMB/A==
+  </data>
+ </layer>
+ <layer name="Front layer (front of player)" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztz6ERACAMBMFoCqITaIP+HRF0gIDM7Jq39xEA/KK31wV31ukfubP4FwAAAAAAAIAqNuOFAXk=
   </data>
  </layer>
  <objectgroup name="Collision">

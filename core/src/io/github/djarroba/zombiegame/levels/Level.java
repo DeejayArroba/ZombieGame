@@ -13,8 +13,8 @@ public class Level {
 	Vector2 spawnPosition;
 	String name;
 
-	public Level(String name, TiledMap map) {
-		this.name = name;
+	public Level(TiledMap map) {
+		this.name = (String) map.getProperties().get("name");
 		this.map = map;
 		this.spawnPosition = new Vector2(Float.parseFloat(map.getProperties().get("spawn_x", String.class)),
 				Float.parseFloat(map.getProperties().get("spawn_y", String.class)));

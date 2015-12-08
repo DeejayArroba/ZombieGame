@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.Entity;
 import io.github.djarroba.zombiegame.entities.EntityManager;
@@ -25,22 +26,25 @@ public class Weapon implements Entity {
 	public Texture weaponTexture;
 	public Sound attackSound;
 
-	public float timeFromLastAttack = 0;
+	public float timeFromLastAttack = 20;
 	public boolean justAttacked = false;
 	Sprite sprite;
 
-	public Weapon(String name, Player player, Texture weaponTexture, Sound attackSound) {
+	Vector2 handlePos;
+
+	public Weapon(String name, Player player, Texture weaponTexture, Sound attackSound, Vector2 handlePos) {
 		this.name = name;
 		this.player = player;
 		this.weaponTexture = weaponTexture;
 		this.attackSound = attackSound;
+		this.handlePos = handlePos;
 
 		this.game = player.screen.game;
 		attackingTextures = new ArrayList<Texture>();
 
 		sprite = new Sprite(weaponTexture, weaponTexture.getWidth(), weaponTexture.getHeight());
 		sprite.setSize(sprite.getWidth() / Units.PPU, sprite.getHeight() / Units.PPU);
-		sprite.setOrigin(sprite.getWidth()/2 - player.sprite.getWidth(), sprite.getHeight()/2);
+		sprite.setOrigin(sprite.getWidth()/2 - player.sprite.getWidth(), sprite.getHeight()/2-player.weaponOffset.y);
 	}
 
 	public boolean canAttack() {
@@ -69,7 +73,7 @@ public class Weapon implements Entity {
 
 		timeFromLastAttack += Gdx.graphics.getDeltaTime();
 
-		if(Gdx.input.justTouched()) {
+		if(Gdx.input.isTouched()) {
 			if(canAttack()) {
 				attack();
 			}
@@ -81,13 +85,13 @@ public class Weapon implements Entity {
 			currentTexture = weaponTexture;
 		} else {
 			// Animation
-			float animationProgress = (timeFromLastAttack / attackDelay) + 0.2f;
-			currentTexture = attackingTextures.get((int)  ((attackingTextures.size()-1) * Math.min(1, animationProgress)));
+			float animationProgress = (timeFromLastAttack / attackDelay);
+			currentTexture = attackingTextures.get((int) (attackingTextures.size() * animationProgress));
 		}
 
 		sprite.setTexture(currentTexture);
-		sprite.setPosition(player.body.getPosition().x+1-sprite.getWidth()/2,
-				player.body.getPosition().y-sprite.getHeight()/2);
+		sprite.setPosition(player.body.getPosition().x+player.weaponOffset.x-sprite.getWidth()/2,
+				player.body.getPosition().y+player.weaponOffset.y-handlePos.y);
 		sprite.setRotation((float) Math.toDegrees(player.body.getAngle()));
 	}
 

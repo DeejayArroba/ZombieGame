@@ -31,6 +31,8 @@ public class Player implements io.github.djarroba.zombiegame.entities.Entity {
 	public Body body;
 	public Sprite sprite;
 
+	public Vector2 weaponOffset;
+
 	public Player(GameScreen screen, Vector2 startPos) {
 		super();
 		this.screen = screen;
@@ -47,6 +49,7 @@ public class Player implements io.github.djarroba.zombiegame.entities.Entity {
         runCost = 15;
         staminaRegen = 20;
 
+		weaponOffset = new Vector2(16/Units.PPU, -5.5f/Units.PPU);
 	}
 
 	private Body createBody(Vector2 startPos) {
@@ -143,4 +146,9 @@ public class Player implements io.github.djarroba.zombiegame.entities.Entity {
 	public void lateUpdate(float delta) {
 
 	}
+
+	public void addMovement() {
+
+	}
+
 }

@@ -44,6 +44,8 @@ public class GameScreen implements Screen {
 		this.game = game;
 		this.level = level;
 
+		Gdx.input.setInputProcessor(null);
+
 		// Set the cursor
 		Texture cursorTexture = game.assets.get("textures/cursor.png", Texture.class);
 		cursorTexture.getTextureData().prepare();
@@ -92,8 +94,10 @@ public class GameScreen implements Screen {
 		camera.update();
 
 		mapRenderer.setView(camera);
-		// Render background layer
+		// Render back layer
 		mapRenderer.render(new int[]{0});
+		// Render mid layer
+		mapRenderer.render(new int[]{1});
 
 		batch.setProjectionMatrix(camera.combined);
 
@@ -104,7 +108,7 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// Render foreground layer
-		mapRenderer.render(new int[]{1});
+		mapRenderer.render(new int[]{2});
 		entityManager.lateUpdate(delta);
 
 		//debugRenderer.render(world, camera.combined);
