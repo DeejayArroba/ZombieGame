@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import io.github.djarroba.zombiegame.ZombieGame;
 import io.github.djarroba.zombiegame.entities.EntityManager;
 import io.github.djarroba.zombiegame.entities.Player;
+import io.github.djarroba.zombiegame.hud.Hud;
 import io.github.djarroba.zombiegame.levels.Level;
 import io.github.djarroba.zombiegame.units.Units;
 
@@ -29,16 +29,18 @@ public class GameScreen implements Screen {
 	FillViewport viewport;
 
 	public SpriteBatch batch;
-	Player player;
+
+	public Player player;
 
 	public World world;
 	Box2DDebugRenderer debugRenderer;
 
 	OrthogonalTiledMapRenderer mapRenderer;
-
 	Level level;
 
 	public EntityManager entityManager;
+
+	Hud hud;
 
 	public GameScreen(ZombieGame game, Level level) {
 		this.game = game;
@@ -74,6 +76,8 @@ public class GameScreen implements Screen {
 
 		player = new Player(this, playerStartPos);
 		entityManager.add(player);
+
+		hud = new Hud(this);
 	}
 
 	@Override
@@ -83,6 +87,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+		viewport.apply();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -90,7 +95,7 @@ public class GameScreen implements Screen {
 
 		entityManager.update(delta);
 
-		camera.position.set(Math.round(player.body.getPosition().x*1000)/1000f, Math.round(player.body.getPosition().y*1000)/1000f, 0);
+		camera.position.set(Math.round(player.body.getPosition().x*100)/100f, Math.round(player.body.getPosition().y*100)/100f, 0);
 		camera.update();
 
 		mapRenderer.setView(camera);
@@ -111,12 +116,15 @@ public class GameScreen implements Screen {
 		mapRenderer.render(new int[]{2});
 		entityManager.lateUpdate(delta);
 
+		hud.update(delta);
+
 		//debugRenderer.render(world, camera.combined);
     }
 
     @Override
     public void resize(int width, int height) {
 		viewport.update(width, height);
+		hud.viewport.update(width, height);
     }
 
     @Override
